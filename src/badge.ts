@@ -21,18 +21,18 @@ export class Budge {
         const provider = this.providers.get(request.type);
         const packageJson = await provider?.getPackageJsonFile(request);
 
-        const result = [];
-        const deps = { ...packageJson.dependencies, ...packageJson.devDependencies };
+        const deps = { ...packageJson?.dependencies, ...packageJson?.devDependencies };
 
+        const result = [];
         for (let name in deps) {
             const version = deps[name];
-            if (version === "latest") continue;
             try {
-                const latest = await this.registry.getLastVersion(name);
-                if (latest === "notfound") continue;
-                const ok = satisfies(latest, version);
+                const latest = await this.registry.getLastVersion2(name);
+                const ok = version === "latest" || satisfies(latest, version);
                 result.push({ name, version, latest, ok });
-            } catch (err) { }
+            } catch (err) {
+                console.error(err);
+            }
         }
         return result;
     }
@@ -43,7 +43,7 @@ export class Budge {
         const total = result.length;
         const uptodate = result.filter((e: any) => e.ok);
 
-        if (total === uptodate) {
+        if (Math.floor(uptodate / total) > .8) {
             return Status.good;
         } else if (Math.floor(uptodate / total) > .5) {
             return Status.normal;
