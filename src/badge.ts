@@ -23,16 +23,15 @@ export class Budge {
 
         const deps = { ...packageJson?.dependencies, ...packageJson?.devDependencies };
 
+        const packages = Object.keys(deps);
+        const latests = await Promise.all(packages.map(name => this.registry.getLastVersion2(name)));
         const result = [];
-        for (let name in deps) {
+        for (let i = 0; i < packages.length; i++) {
+            const name = packages[i];
+            const latest = latests[i];
             const version = deps[name];
-            try {
-                const latest = await this.registry.getLastVersion2(name);
-                const ok = version === "latest" || satisfies(latest, version);
-                result.push({ name, version, latest, ok });
-            } catch (err) {
-                console.error(err);
-            }
+            const ok = version === "latest" || satisfies(latest, version);
+            result.push({ name, version, latest, ok });
         }
         return result;
     }
