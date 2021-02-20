@@ -38,34 +38,4 @@ export class NpmRegistry implements IRegistry {
             })
         });
     }
-
-
-    getLastVersion2(name: string): Promise<string> {
-        return new Promise((resolve, reject) => {
-            if (this.cache.has(name)) {
-                return resolve(this.cache.get(name) as string);
-            }
-            const url = `https://api.npms.io/v2/package/${escape(name)}`;
-            get(url, (res: IncomingMessage) => {
-                const chunks: any[] = [];
-                res
-                    .on("data", (chunk: any) => chunks.push(chunk))
-                    .once("end", () => {
-                        try {
-                            const info = JSON.parse(Buffer.concat(chunks).toString());
-                            if (info) {
-                                const latest  = info.collected.metadata.version;
-                                this.cache.set(name, latest);
-                                resolve(latest);
-                            } else {
-                                reject(new Error(info));
-                            }
-                        } catch (err) {
-                            reject(err);
-                        }
-                    })
-                    .once("error", (err: Error) => reject(err));
-            })
-        });
-    }
 }

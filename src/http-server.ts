@@ -8,11 +8,9 @@ export class HttpServer {
 
     @param("PORT", 8080)
     private readonly port!: number;
-
     private readonly app = express();
     private server?: Server;
-
-    private readonly badge: Budge = new Budge();
+    private readonly badge = new Budge();
 
     constructor() {
         this.app.get('/:type/:user/:repo/:branch/:format', async (req, res) => {
@@ -28,6 +26,7 @@ export class HttpServer {
                     res.send(status);
                     break;
                 }
+                default:
                 case "badge": {
                     const status = await this.badge.getResultAsStatus({ type, user, repo, branch } as any);
                     res.sendFile(resolve(__dirname, "../badge-images", `${status}.svg`));

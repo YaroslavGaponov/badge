@@ -24,14 +24,15 @@ export class Budge {
         const deps = { ...packageJson?.dependencies, ...packageJson?.devDependencies };
 
         const packages = Object.keys(deps);
-        const latests = await Promise.all(packages.map(name => this.registry.getLastVersion2(name)));
+        const latests = await Promise.all(packages.map(name => this.registry.getLastVersion(name)));
+
         const result = [];
         for (let i = 0; i < packages.length; i++) {
             const name = packages[i];
-            const latest = latests[i];
             const version = deps[name];
-            const ok = version === "latest" || satisfies(latest, version);
-            result.push({ name, version, latest, ok });
+            const latest = latests[i];
+            const uptodate = version === "latest" || satisfies(latest, version);
+            result.push({ name, version, latest, uptodate });
         }
         return result;
     }
@@ -40,7 +41,7 @@ export class Budge {
         const result = await this.getResultAsJson(request);
 
         const total = result.length;
-        const uptodate = result.filter((e: any) => e.ok);
+        const uptodate = result.filter((e: any) => e.uptodate);
 
         if (Math.floor(uptodate / total) > .8) {
             return Status.good;
