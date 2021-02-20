@@ -1,0 +1,24 @@
+{
+  "name": "budge",
+  "version": "0.0.1",
+  "description": "Budge",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "server": "node --max-semi-space-size=128 dist/main.js"
+  },
+  "author": "Yaroslav Gaponov",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/express": "^4.17.9",
+    "@types/node": "^13.1.8",
+    "@types/semver": "^7.3.4",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "reflect-metadata": "^0.1.13",
+    "semver": "^7.3.4"
+  }
+}
