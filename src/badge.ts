@@ -41,11 +41,11 @@ export class Budge {
         const result = await this.getResultAsJson(request);
 
         const total = result.length;
-        const uptodate = result.filter((e: any) => e.uptodate);
+        const uptodate = result.filter((e: any) => e.uptodate).length;
 
-        if (Math.floor(uptodate / total) > .8) {
+        if (uptodate / total > .8) {
             return Status.good;
-        } else if (Math.floor(uptodate / total) > .5) {
+        } else if (uptodate / total > .5) {
             return Status.normal;
         }
         return Status.bad;
