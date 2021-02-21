@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .divTable {
+            display: table;
+            width: 80%;
+        }
+
+        .divTableRow {
+            display: table-row;
+        }
+
+        .divTableHeading {
+            display: table-header-group;
+            background-color: #ddd;
+            font-weight: bold;
+        }
+
+        .divTableCell,
+        .divTableHead {
+            display: table-cell;
+            padding: 3px 10px;
+            border: 1px solid #999999;
+        }
+
+        .divTableHeading {
+            display: table-header-group;
+        }
+
+        .divTableBody {
+            display: table-row-group;
+        }
+    </style>
+
+    <title>Dependencies</title>
+</head>
+
+<body>
+
+
+    <div class="divTable">
+
+        <div class="divTableHeading">
+            <div class="divTableRow">
+                <div class="divTableHead">Package</div>
+                <div class="divTableHead">Version</div>
+                <div class="divTableHead">Latest</div>
+                <div class="divTableHead">Uptodate</div>
+            </div>
+        </div>
+
+        <div class="divTableBody">
+            <% deps.forEach(function (dep) { %>
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        <%= dep.name %>
+                    </div>
+                    <div class="divTableCell">
+                        <%= dep.version %>
+                    </div>
+                    <div class="divTableCell">
+                        <%= dep.latest %>
+                    </div>
+                    <div class="divTableCell">
+                        <%= dep.uptodate %>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

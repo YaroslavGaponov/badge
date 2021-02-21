@@ -27,3 +27,9 @@ http://localhost:8080/github/microsoft/TypeScript/master/status
 ```
 http://localhost:8080/github/microsoft/TypeScript/master/badge
 ```
+
+### Get status as html
+
+```
+http://localhost:8080/github/microsoft/TypeScript/master/html
+```

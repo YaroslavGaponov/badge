@@ -3,6 +3,8 @@ import express from "express";
 import { Server } from "http";
 import { Budge } from "./badge";
 import { resolve } from "path";
+import ejs from "ejs";
+import { join } from "path";
 
 export class HttpServer {
 
@@ -13,6 +15,9 @@ export class HttpServer {
     private readonly badge = new Budge();
 
     constructor() {
+        this.app.set("views", join(__dirname, "../view"));
+        this.app.set("view engine", "ejs");
+
         this.app.get('/:type/:user/:repo/:branch/:format', async (req, res) => {
             const { type, user, repo, branch, format } = req.params;
             switch (format) {
@@ -24,6 +29,11 @@ export class HttpServer {
                 case "status": {
                     const status = await this.badge.getResultAsStatus({ type, user, repo, branch } as any);
                     res.send(status);
+                    break;
+                }
+                case "html": {
+                    const json = await this.badge.getResultAsJson({ type, user, repo, branch } as any);
+                    res.render('deps', {deps: json});
                     break;
                 }
                 default:
