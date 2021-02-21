@@ -35,7 +35,6 @@ export class GitLabProvider implements IVersionControlProvider {
     }
 
     private request(url: string): Promise<any> {
-        console.log(url)
         return new Promise((resolve, reject) => {
             get(url, { headers: { "PRIVATE-TOKEN": this.token } }, (res: IncomingMessage) => {
                 const chunks: any[] = [];

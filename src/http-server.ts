@@ -10,7 +10,7 @@ import { createServer } from "https";
 
 export class HttpServer {
 
-    @param("PORT", 8433)
+    @param("PORT", 8888)
     private readonly port!: number;
     private readonly app = express();
     private server: Server;
