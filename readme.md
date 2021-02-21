@@ -1,4 +1,4 @@
-Badge[![deps-dev-server](https://localhost:8888/github/YaroslavGaponov/badge/main/badge)](https://localhost:8888/github/YaroslavGaponov/badge/main/html)
+Badge
 ============
 
 # Demo
