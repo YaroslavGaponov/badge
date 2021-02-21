@@ -28,13 +28,19 @@ export class NpmRegistry implements IRegistry {
                                 this.cache.set(name, latest);
                                 resolve(latest);
                             } else {
-                                reject(new Error(info));
+                                //console.error(name, info);
+                                //reject(new Error(info));
+                                resolve("missing");
                             }
                         } catch (err) {
+                            console.error(err);
                             reject(err);
                         }
                     })
-                    .once("error", (err: Error) => reject(err));
+                    .once("error", (err: Error) => {
+                        console.error(err);
+                        reject(err);
+                    });
             })
         });
     }

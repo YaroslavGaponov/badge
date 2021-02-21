@@ -1,4 +1,4 @@
-import { GitHubProvider } from "./provider/github/github-provider";
+import { GitHubProvider, GitLabProvider } from "./provider";
 import { NpmRegistry } from "./npm-registry";
 import { IRegistry } from "./registry-interface";
 import { IVersionControlProvider } from "./version-control-provider-interface";
@@ -10,7 +10,8 @@ export class Budge {
 
     private readonly providers: Map<string, IVersionControlProvider> = new Map(
         [
-            ["github", new GitHubProvider()]
+            ["github", new GitHubProvider()],
+            ["gitlab", new GitLabProvider()]
         ]
     );
 
