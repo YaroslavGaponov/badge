@@ -11,25 +11,29 @@ docker-compose up
 
 ## API
 
+### Prepare
+
+Set to enabled `chrome://flags/#allow-insecure-localhost`
+
 ### Get status as json
 ```
-http://localhost:8080/github/microsoft/TypeScript/master/json
+https://localhost:8433/github/microsoft/TypeScript/master/json
 ```
 
 ### Get status as string (`good`, `normal` or `bad`)
 ```
-http://localhost:8080/github/microsoft/TypeScript/master/status
+https://localhost:8433/github/microsoft/TypeScript/master/status
 ```
 
 
 ### Get status as budge
 
 ```
-http://localhost:8080/github/microsoft/TypeScript/master/badge
+https://localhost:8433/github/microsoft/TypeScript/master/badge
 ```
 
 ### Get status as html
 
 ```
-http://localhost:8080/github/microsoft/TypeScript/master/html
+https://localhost:8433/github/microsoft/TypeScript/master/html
 ```
