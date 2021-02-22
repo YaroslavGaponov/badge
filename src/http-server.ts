@@ -7,19 +7,18 @@ import ejs from "ejs";
 import { join } from "path";
 import { readFileSync } from "fs";
 import { createServer } from "https";
+import { createCertificate } from "pem";
+import { rejects } from "assert";
 
 export class HttpServer {
 
     @param("PORT", 8888)
     private readonly port!: number;
     private readonly app = express();
-    private server: Server;
+    private server?: Server;
     private readonly badge = new Budge();
 
     constructor() {
-        const key = readFileSync(resolve(__dirname, "../certificate/selfsigned.key"));
-        const cert = readFileSync(resolve(__dirname, "../certificate/selfsigned.crt"));
-        this.server = createServer({ key, cert }, this.app);
 
         this.app.set("views", join(__dirname, "../view"));
         this.app.set("view engine", "ejs");
@@ -53,10 +52,20 @@ export class HttpServer {
     }
 
     start(): Promise<void> {
-        return new Promise<void>(resolve => this.server.listen(this.port, () => resolve()));
+        return new Promise<void>((resolve, reject) => {
+            createCertificate(
+                { days: 365, selfSigned: true },
+                (err, key) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    this.server = createServer({ key: key.serviceKey, cert: key.certificate }, this.app).listen(this.port, () => resolve());
+                })
+        });
     }
 
     stop(): Promise<void> {
-        return new Promise<void>(resolve => this.server.close(() => resolve()));
+        return new Promise<void>(resolve => this.server?.close(() => resolve()));
     }
+
 }
