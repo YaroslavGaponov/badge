@@ -5,10 +5,7 @@ import { Budge } from "./badge";
 import { resolve } from "path";
 import ejs from "ejs";
 import { join } from "path";
-import { readFileSync } from "fs";
-import { createServer } from "https";
-import { createCertificate } from "pem";
-import { rejects } from "assert";
+import { createServer } from "http";
 
 export class HttpServer {
 
@@ -52,16 +49,7 @@ export class HttpServer {
     }
 
     start(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-            createCertificate(
-                { days: 365, selfSigned: true },
-                (err, key) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    this.server = createServer({ key: key.serviceKey, cert: key.certificate }, this.app).listen(this.port, () => resolve());
-                })
-        });
+        return new Promise<void>(resolve => this.server = createServer(this.app).listen(this.port, () => resolve()));
     }
 
     stop(): Promise<void> {
